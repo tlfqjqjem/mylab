@@ -173,7 +173,8 @@ new Chart($('cuisinePriceChart'), {
     indexAxis: 'y',
     scales: {
       x: { grid: { color: css('--grid') }, border: { display: false }, min: 50, ticks: { callback: (v) => `$${v}` } },
-      y: { grid: { display: false }, border: { color: css('--axis') } },
+      // 막대마다 이름이 보여야 하므로 라벨 생략을 끈다
+      y: { grid: { display: false }, border: { color: css('--axis') }, ticks: { autoSkip: false } },
     },
     plugins: { tooltip: { callbacks: { label: (c) => `$${c.parsed.x}` } } },
   },
@@ -223,7 +224,14 @@ new Chart($('priceRatingChart'), {
     }],
   },
   options: {
-    scales: axes({ y: { beginAtZero: false, suggestedMin: 3.4, suggestedMax: 3.6, ticks: { callback: (v) => `${v}점` } } }),
+    scales: axes({
+      y: {
+        beginAtZero: false,
+        suggestedMin: 3.4,
+        suggestedMax: 3.6,
+        ticks: { stepSize: 0.05, callback: (v) => `${v.toFixed(2)}점` },
+      },
+    }),
     plugins: { tooltip: { callbacks: { label: (c) => `${c.parsed.y}점` } } },
   },
 });
